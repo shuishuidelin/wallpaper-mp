@@ -24,20 +24,13 @@ interface UserInfo {
   number: string;
   headImg: string;
   worksNum: number;
-  likeNum: number;
-  collectNum: number;
 }
 
 interface Works {
-  urlList: string[];
+  content: string;
   worksType: number;
   uuid: string;
   title: string;
   sortDesc: string;
-  likeNum: number;
-  collectNum: number;
-  isLike: number;
-  isCollect: number;
-  userInfo: string;
 }
 

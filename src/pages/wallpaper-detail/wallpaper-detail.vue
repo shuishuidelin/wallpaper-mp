@@ -4,9 +4,9 @@
       <image src="@/static/img/icon_return.png" class="icon_return"></image>
     </view> -->
     <image mode="aspectFill"
-           :src="worksDetail.works.urlList[0]"
+           :src="worksDetail.works.content"
            class="wallpaper"
-           v-if="worksDetail.works.urlList[0]"></image>
+           v-if="worksDetail.works.content"></image>
     <view class="plane">
       <view class="avatar_area row"
             @click="navUserDetail">
@@ -176,7 +176,7 @@ export default defineComponent({
           title: "下载中...",
         });
         uni.getImageInfo({
-          src: worksDetail.works.urlList[0],
+          src: worksDetail.works.content,
           success(res) {
             if (res.path) saveImg(res.path);
           },

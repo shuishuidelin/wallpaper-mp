@@ -30,7 +30,7 @@
     <view class="gallery">
       <block v-for="(item,i) in imgList"
              :key="i">
-        <image :src="item.urlList[0]"
+        <image :src="item.content"
                class="item_img"
                :lazy-load="true"
                mode="aspectFill"

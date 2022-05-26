@@ -4,7 +4,7 @@
       <MyTopBar class="my_top_bar" v-if="topBar.length > 0" :arr="topBar" :defalut="currentPage" :defalutWidth="32" :defalutLeft="46" @tab-click="tabClick" @change="change" />
     </view>
     <view class="gallery">
-      <image :src="works.urlList[0]" class="item_img" :lazy-load="true" mode="aspectFill" v-for="(works) in imgArr" :key="works.uuid" @click="navDetail(works)"></image>
+      <image :src="works.content" class="item_img" :lazy-load="true" mode="aspectFill" v-for="(works) in imgArr" :key="works.uuid" @click="navDetail(works)"></image>
       <LoadPage :pagination="pagination" />
     </view>
   </view>

@@ -70,16 +70,16 @@
               <text>作品</text>{{item.userInfo.worksNum}}
             </view>
             <view>
-              <text>获赞</text>{{item.userInfo.likeNum}}
+              <text>获赞</text>{{item.action.likeNum}}
             </view>
             <view>
-              <text>收藏</text>{{item.userInfo.collectNum}}
+              <text>收藏</text>{{item.action.collectNum}}
             </view>
           </view>
         </view>
       </view>
       <view class="gallery">
-        <image :src="works.urlList[0]"
+        <image :src="works.content"
                class="item_img"
                :lazy-load="true"
                mode="aspectFill"
@@ -144,7 +144,7 @@ export default defineComponent({
       });
     }
     function navPrivateDetail(item: UserWork, works: UserWallpaper) {
-      works.userInfo = item.userInfo;
+      // works.userInfo = item.userInfo;
       navDetail(works);
     }
     let showSearch = ref(false),

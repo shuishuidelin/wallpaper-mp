@@ -7,43 +7,73 @@
  * @LastEditTime: 2022-05-22 17:35:58
  */
 
-export interface UserInfo {
-  userId: string
-  headImg: string;
+interface Action {
+  likeNum: number;
+  isLike: number;
+  isCollect: number;
   collectNum: number;
-  likeNum: number
-  worksNum: number
-  number: number
 }
+
+/**
+ * 创作者基本信息
+ */
+export interface UserInfo {
+  userId: string;
+  number: string;
+  headImg: string;
+  worksNum: number;
+}
+
+/**
+ * 作品信息
+ */
 export interface UserWork {
   userInfo: UserInfo;
+  action: Action;
   worksList: UserWallpaper[]
 }
+
+/**
+ * 作品分类
+ */
 export interface worksTitle {
   name: string,
   worksType: number
 }
+
+/**
+ * 用户详情
+ */
 export interface UserDetail {
   userInfo: UserInfo;
+  action: Action;
   worksTitleList: worksTitle[]
 }
+
+/**
+ * 作品-壁纸
+ */
 export interface UserWallpaper {
-  userInfo: UserInfo;
-  sortDesc: string;
-  title: string
-  urlList: string[]
-  uuid: string
+  content: string;
+  bigUrl: string;
   worksType: number;
-  collectNum: number;
-  likeNum: number;
-  isCollect: number;
-  isLike: number;
+  uuid: string;
+  title: string;
+  sortDesc: string;
 }
+
+/*
+首页-顶部推荐作品分类
+*/
 export interface RecommendTitle {
   dicId: string
   img: string
   title: string
 }
+
+/*
+创作中心-顶部推荐作者
+*/
 export interface RecommendUser {
   headImg: string
   title: string

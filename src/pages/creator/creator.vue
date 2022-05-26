@@ -10,12 +10,12 @@
       </view>
       <view class="line"></view>
       <view class="i_block">
-        <view class="amount">{{userWork.userInfo.likeNum}}</view>
+        <view class="amount">{{userWork.action.likeNum}}</view>
         <view class="desc">获赞</view>
       </view>
       <view class="line"></view>
       <view class="i_block">
-        <view class="amount">{{userWork.userInfo.collectNum}}</view>
+        <view class="amount">{{userWork.action.collectNum}}</view>
         <view class="desc">收藏</view>
       </view>
     </view>
@@ -36,7 +36,7 @@
       </view>
     </view>
     <view class="gallery">
-      <image :src="works.urlList[0]"
+      <image :src="works.content"
              class="item_img"
              :lazy-load="true"
              mode="aspectFill"

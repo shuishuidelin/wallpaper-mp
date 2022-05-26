@@ -19,43 +19,46 @@ export interface UriInfo {
 }
 export const Api = {
 
-  /**店铺信息 */
+  /**注册 */
   xcxWxReg: { uri: "/xcx/user/reg/wx", },
   xcxDyReg: { uri: "/xcx/user/reg/dy", },
 
   /**店铺信息 */
   store: { uri: "/na/home/info/store", },
-  /**首页推荐 */
-  recommend: { uri: "/xcx/recommend/today", },
-  /**创作中心-用户详情 */
-  userDetail: { uri: "/xcx/works/userDetail", },
-  /**创作中心-列表*/
-  userList: { uri: "/xcx/works/userList", },
-  /**创作中心-用户各类型作品列表*/
-  userWorkList: { uri: "/xcx/works/userWorkList", },
-  /**创作中心-壁纸详情*/
-  worksDetail: { uri: "/xcx/works/worksDetail", },
+
+
+  /**首页作品推荐 */
+  recommend: { uri: "/author/recommend/workList", },
   /**推荐标题*/
-  recommendTitle: { uri: "/xcx/recommend/title", },
+  recommendTitle: { uri: "/author/recommend/workTitle", },
   /**创作者推荐*/
-  recommendUserList: { uri: "/xcx/works/recommendUserList", },
-
-  /**点赞 */
-  actionLike: { uri: "/xcx/user/action/like", },
-  /**收藏*/
-  actionCollect: { uri: "/xcx/user/action/collect", },
-
-  /**点赞 */
-  likeList: { uri: "/xcx/user/action/likeList", },
-  /**收藏*/
-  collectList: { uri: "/xcx/user/action/collectList", },
+  recommendUserList: { uri: "/author/recommend/userList", },
 
 
+  
+  /**创作中心-用户详情 */
+  userDetail: { uri: "/author/user/userDetail", },
+  /**创作中心-列表*/
+  userList: { uri: "/author/user/userList", },
+  /**创作中心-用户各类型作品列表*/
+  userWorkList: { uri: "/author/user/workList", },
+  /**创作中心-壁纸详情*/
+  worksDetail: { uri: "/author/user/worksDetail", },
   /**创作中心-用户申请*/
-  worksApply: { uri: "/xcx/works/apply", },
+  worksApply: { uri: "/author/user/apply", },
 
+
+  /**点赞 */
+  actionLike: { uri: "/author/action/like", },
+  /**收藏*/
+  actionCollect: { uri: "/author/action/collect", },
+  /**点赞 */
+  likeList: { uri: "/author/action/likeList", },
+  /**收藏*/
+  collectList: { uri: "/author/action/collectList", },
   /**行为收集-用户下载*/
-  actionDown: { uri: "/xcx/user/action/down", },
+  actionDown: { uri: "/author/action/down", },
+
 
 }
 export class ConstValue {
