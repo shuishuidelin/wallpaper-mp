@@ -155,13 +155,11 @@ export default defineComponent({
       }, 0)
     }
     function inputBlur() {
-      console.log('触发视角时间')
-
-      // setTimeout(() => {
-      //   showSearch.value = false
-      // }, 300)
-      // showAnm.value = false
-      // searchValue.value = ''
+      setTimeout(() => {
+        showSearch.value = false
+      }, 300)
+      showAnm.value = false
+      searchValue.value = ''
     }
     function confirmInput() {
       console.log(searchValue.value)
