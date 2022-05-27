@@ -68,6 +68,28 @@ export default class User {
         })
     }
     //#endif
+	// @ts-ignore
+	//#ifdef MP-KUAISHOU
+	public userReg() {
+	    const that = this;
+	    console.log("调用qslogin========");
+	    uni.login({
+	        success(res) {
+	            const code = res.code;
+				console.log("code======2222222" + code)
+	            FetchManager.postCommon<UserReg>(Api.xcxKsReg, {
+					code
+	            }).then(res => {
+	                if (res.data[0] && res.data[0].userId) {
+	                    that.setCustomKey(res.data[0].userId);
+	                    // that.getSeveryUserInfo();
+	                    that.setUserInfo(res.data[0])
+	                }
+	            })
+	        }
+	    })
+	}
+	//#endif
 
     /**用户授权 */
     // public userAuth(): Promise<void> {

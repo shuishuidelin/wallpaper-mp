@@ -163,7 +163,7 @@ export default defineComponent({
     content: " ";
     width: 100%;
     height: 100%;
-    background: #000000bb;
+    // background: #000000bb;
     position: absolute;
     top: 0;
     left: 0;

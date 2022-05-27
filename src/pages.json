@@ -1,6 +1,6 @@
 {
 	"pages": [
-    {
+		{
 			"path": "pages/creation-group/creation-group",
 			"style": {
 				"navigationBarTitleText": "创作者",

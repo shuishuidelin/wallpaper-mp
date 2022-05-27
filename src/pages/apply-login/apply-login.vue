@@ -8,6 +8,9 @@
     <!--  #ifdef MP-WEIXIN -->
     <view class="ui">* 遵守微信的内容运营规范</view>
     <!--  #endif -->
+	<!--  #ifdef MP-KUAISHOU -->
+	<view class="ui">* 遵守快手的内容运营规范</view>
+	<!--  #endif -->
     <view class="ui">* 遵守我们的内容审核规范</view>
     <view class="main_title">
       欢迎注册登记

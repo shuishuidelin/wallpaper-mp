@@ -138,6 +138,10 @@ export default defineComponent({
       adUnitId = "";
       Utils.showToast("未配置广告");
       // #endif
+	  // #ifdef MP-KUAISHOU
+	  adUnitId = "";
+	  Utils.showToast("未配置广告");
+	  // #endif
       rewardedVideoAd = uni.createRewardedVideoAd({
         adUnitId: adUnitId,
       });

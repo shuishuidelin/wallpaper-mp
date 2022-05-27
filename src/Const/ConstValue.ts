@@ -22,6 +22,7 @@ export const Api = {
   /**注册 */
   xcxWxReg: { uri: "/xcx/user/reg/wx", },
   xcxDyReg: { uri: "/xcx/user/reg/dy", },
+  xcxKsReg: { uri: "/xcx/user/reg/ks", },
 
   /**店铺信息 */
   store: { uri: "/na/home/info/store", },
