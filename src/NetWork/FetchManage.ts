@@ -77,10 +77,10 @@ export default class FetchManager {
           // @ts-ignore
           appKey: "widget_wx_xcx",
           // #endif
-		  // #ifdef MP-KUAISHOU
-		  // @ts-ignore
-		  appKey: "widget_ks_xcx",
-		  // #endif
+          // #ifdef MP-KUAISHOU
+          // @ts-ignore
+          appKey: "widget_ks_xcx",
+          // #endif
         },
         timeout: apiObj.timeout,
         data: JSON.stringify(params),

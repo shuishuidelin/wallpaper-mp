@@ -1,108 +1,106 @@
 <template>
   <view class="content">
-    <image src="@/static/img/top_img.png"
-           class="top_img"
-           @click="navApplyLogin"></image>
+    <image
+      src="@/static/img/top_img.png"
+      class="top_img"
+      @click="navApplyLogin"
+    ></image>
     <view class="recommend">
       <view class="title">优质创作者推荐</view>
-      <scroll-view scroll-x
-                   class="scrollView">
-        <view class="row"
-              :style="'width:'+userList.length*138+'rpx'">
-          <view class="area"
-                v-for="(item,i) in userList"
-                :key="i"
-                @click="navCreator(item)">
-            <image :src="item.headImg"
-                   class="logo"></image>
-            <view class="name">{{item.title}}</view>
+      <scroll-view scroll-x class="scrollView">
+        <view class="row" :style="'width:' + userList.length * 138 + 'rpx'">
+          <view
+            class="area"
+            v-for="(item, i) in userList"
+            :key="i"
+            @click="navCreator(item)"
+          >
+            <image :src="item.headImg" class="logo"></image>
+            <view class="name">{{ item.title }}</view>
           </view>
         </view>
       </scroll-view>
     </view>
     <view class="search">
-      <view class="un row"
-            v-if="!showSearch"
-            @click="inputFocus">
-        <image src="@/static/img/icon_search.png"
-               class="icon"></image>
+      <view class="un row" v-if="!showSearch" @click="inputFocus">
+        <image src="@/static/img/icon_search.png" class="icon"></image>
         <text>搜索原创作者ID</text>
       </view>
-      <view class="put row"
-            v-else>
-        <image src="@/static/img/icon_search.png"
-               :class="showAnm?'icon icon_anm':' icon' "></image>
-        <input type="text"
-               confirm-type="search"
-               placeholder="搜索原创作者ID"
-               :placeholder-style="`color: #8c9eff;font-size: ${inputSize}px;`"
-               :class="showAnm?'flex-1':''"
-               v-model="searchValue"
-               @blur="inputBlur"
-               :focus="showSearch && showAnm"
-               @confirm="confirmInput">
-        <image src="@/static/img/icon_clear.png"
-               class="icon icon_clear"
-               v-if="searchValue"
-               @click="searchValue = ''"></image>
+      <view class="put row" v-else>
+        <image
+          src="@/static/img/icon_search.png"
+          :class="showAnm ? 'icon icon_anm' : ' icon'"
+        ></image>
+        <input
+          type="text"
+          confirm-type="search"
+          placeholder="搜索原创作者ID"
+          :placeholder-style="`color: #8c9eff;font-size: ${inputSize}px;`"
+          :class="showAnm ? 'flex-1' : ''"
+          v-model="searchValue"
+          @blur="inputBlur"
+          :focus="showSearch && showAnm"
+          @confirm="confirmInput"
+        />
+        <image
+          src="@/static/img/icon_clear.png"
+          class="icon icon_clear"
+          v-if="searchValue"
+          @click="searchValue = ''"
+        ></image>
       </view>
     </view>
-    <view class="creation-block"
-          v-for="(item,i) in imgList"
-          :key="i">
+    <view class="creation-block" v-for="(item, i) in imgList" :key="i">
       <view class="info row">
-        <image :src="item.userInfo.headImg"
-               class="avatar"
-               @click="navCreator(item)"></image>
+        <image
+          :src="item.userInfo.headImg"
+          class="avatar"
+          @click="navCreator(item)"
+        ></image>
         <view>
           <view class="row">
-            <view class="name"
-                  @click="navCreator(item)">{{item.userInfo.number}}</view>
-            <view class="copy row"
-                  @click="copyUserId(item.userInfo.userId)">
-              <image src="@/static/img/icon_copy.png"
-                     class="icon_copy"></image>
+            <view class="name" @click="navCreator(item)">{{
+              item.userInfo.number
+            }}</view>
+            <view class="copy row" @click="copyUserId(item.userInfo.userId)">
+              <image src="@/static/img/icon_copy.png" class="icon_copy"></image>
               复制ID
             </view>
           </view>
           <view class="row amount">
-            <view>
-              <text>作品</text>{{item.userInfo.worksNum}}
-            </view>
-            <view>
-              <text>获赞</text>{{item.action.likeNum}}
-            </view>
-            <view>
-              <text>收藏</text>{{item.action.collectNum}}
-            </view>
+            <view> <text>作品</text>{{ item.userInfo.worksNum }} </view>
+            <view> <text>获赞</text>{{ item.action.likeNum }} </view>
+            <view> <text>收藏</text>{{ item.action.collectNum }} </view>
           </view>
         </view>
       </view>
       <view class="gallery">
-        <image :src="works.content"
-               class="item_img"
-               :lazy-load="true"
-               mode="aspectFill"
-               v-for="(works) in item.worksList"
-               :key="works.uuid"
-               @click="navPrivateDetail(item,works)"></image>
+        <image
+          :src="works.content"
+          class="item_img"
+          :lazy-load="true"
+          mode="aspectFill"
+          v-for="works in item.worksList"
+          :key="works.uuid"
+          @click="navPrivateDetail(item, works)"
+        ></image>
       </view>
     </view>
     <LoadPage :pagination="pagination" />
   </view>
 </template>
- <script lang="ts">
-import { RecommendUser, UserWallpaper, UserWork } from "@/bean/Wallpaper";
-import { Api } from "@/Const/ConstValue";
-import FetchManager from "@/NetWork/FetchManage";
-import store from "@/store";
-import { Pagination } from "@/utils/Pages";
-import { navDetail } from "@/utils/StaticFunUtils";
-import { defineComponent, reactive, ref } from "vue";
-import LoadPage from "@/components/LoadPage/LoadPage.vue";
+<script lang="ts">
+import { RecommendUser, UserWallpaper, UserWork } from '@/bean/Wallpaper'
+import { Api } from '@/Const/ConstValue'
+import FetchManager from '@/NetWork/FetchManage'
+import store from '@/store'
+import { Pagination } from '@/utils/Pages'
+import { navDetail } from '@/utils/StaticFunUtils'
+import { defineComponent, reactive, ref } from 'vue'
+import LoadPage from '@/components/LoadPage/LoadPage.vue'
 
 export default defineComponent({
-  name: "",
+  name: '',
   components: {
     LoadPage,
   },
@@ -110,77 +108,79 @@ export default defineComponent({
     function navCreator(item: UserWork | RecommendUser) {
       let userid =
         ((<UserWork>item).userInfo && (<UserWork>item).userInfo.userId) ||
-        (<RecommendUser>item).userId;
+        (<RecommendUser>item).userId
       uni.navigateTo({
-        url: "../creator/creator?userId=" + userid,
-      });
+        url: '../creator/creator?userId=' + userid,
+      })
     }
     function navApplyLogin() {
       uni.navigateTo({
-        url: "../apply-login/apply-login",
-      });
+        url: '../apply-login/apply-login',
+      })
     }
-    let imgList = reactive<UserWork[]>([]);
+    let imgList = reactive<UserWork[]>([])
     let pagination = reactive(
       new Pagination<UserWork>({
         postCommon(o) {
-          return FetchManager.postCommon(Api.userList, o);
+          return FetchManager.postCommon(Api.userList, o)
         },
         callback(res, type) {
-          if (type === "reStart") imgList.length = 0;
-          imgList.push(...res.data);
+          if (type === 'reStart') imgList.length = 0
+          imgList.push(...res.data)
         },
       })
-    );
-    pagination.reStart();
+    )
+    pagination.reStart()
     function copyUserId(id: string) {
       uni.setClipboardData({
         data: id,
         success: function () {
           uni.showToast({
-            title: "已复制ID",
-          });
+            title: '已复制ID',
+          })
         },
-      });
+      })
     }
     function navPrivateDetail(item: UserWork, works: UserWallpaper) {
       // works.userInfo = item.userInfo;
-      navDetail(works);
+      navDetail(works)
     }
     let showSearch = ref(false),
       showAnm = ref(false),
-      searchValue = ref("");
+      searchValue = ref('')
     function inputFocus() {
-      showSearch.value = true;
+      showSearch.value = true
       setTimeout(() => {
-        showAnm.value = true;
-      }, 0);
+        showAnm.value = true
+      }, 0)
     }
     function inputBlur() {
-      setTimeout(() => {
-        showSearch.value = false;
-      }, 300);
-      showAnm.value = false;
-      searchValue.value = "";
+      console.log('触发视角时间')
+
+      // setTimeout(() => {
+      //   showSearch.value = false
+      // }, 300)
+      // showAnm.value = false
+      // searchValue.value = ''
     }
     function confirmInput() {
-      console.log(searchValue.value);
+      console.log(searchValue.value)
       if (searchValue.value) {
         uni.navigateTo({
           url:
-            "../creator/creator?userId=" +
+            '../creator/creator?userId=' +
             searchValue.value +
-            "&inviteCode=" +
+            '&inviteCode=' +
             searchValue.value,
-        });
+        })
       }
     }
-    let userList = reactive<RecommendUser[]>([]);
+    let userList = reactive<RecommendUser[]>([])
     FetchManager.postCommon<RecommendUser>(Api.recommendUserList).then(
       (res) => {
-        userList.push(...res.data);
+        userList.push(...res.data)
       }
-    );
+    )
     return {
       confirmInput,
       inputBlur,
@@ -195,14 +195,15 @@ export default defineComponent({
       copyUserId,
       pagination,
       userList,
-    };
+      inputSize: 12,
+    }
   },
   onReachBottom() {
-    this.pagination.nextPage();
+    this.pagination.nextPage()
   },
-});
+})
 </script>
- <style lang="scss">
+<style lang="scss">
 .content {
   padding-bottom: 300upx;
 }

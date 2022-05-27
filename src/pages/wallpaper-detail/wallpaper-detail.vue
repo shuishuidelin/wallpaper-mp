@@ -1,105 +1,99 @@
 <template>
   <view class="content">
-    <!-- <view class="back" :style="safetyTop" @click="back">
+    <!--  #ifndef  MP-TOUTIAO -->
+    <view class="back" :style="safetyTop" @click="back">
       <image src="@/static/img/icon_return.png" class="icon_return"></image>
-    </view> -->
-    <image mode="aspectFill"
-           :src="worksDetail.works.content"
-           class="wallpaper"
-           v-if="worksDetail.works.content"></image>
+    </view>
+    <!--  #endif -->
+    <image
+      mode="aspectFill"
+      :src="worksDetail.works.content"
+      class="wallpaper"
+      v-if="worksDetail.works.content"
+    ></image>
     <view class="plane">
-      <view class="avatar_area row"
-            @click="navUserDetail">
-        <image :src="worksDetail.userInfo.headImg"
-               class="avatar"></image>
-        <view class="amount">{{worksDetail.userInfo.number}}</view>
+      <view class="avatar_area row" @click="navUserDetail">
+        <image :src="worksDetail.userInfo.headImg" class="avatar"></image>
+        <view class="amount">{{ worksDetail.userInfo.number }}</view>
       </view>
-      <view class="like"
-            @click="clickLike">
-        <image src="@/static/img/g10-s.png"
-               class="icon"
-               v-if="ifLike"></image>
-        <image src="@/static/img/g10.png"
-               class="icon"
-               v-else></image>
-        <view class="amount">{{worksDetail.action.likeNum}}</view>
+      <view class="like" @click="clickLike">
+        <image src="@/static/img/g10-s.png" class="icon" v-if="ifLike"></image>
+        <image src="@/static/img/g10.png" class="icon" v-else></image>
+        <view class="amount">{{ worksDetail.action.likeNum }}</view>
       </view>
-      <view class="like star"
-            @click="clickStar">
-        <image src="@/static/img/layer2-s.png"
-               class="icon"
-               v-if="isStar"></image>
-        <image src="@/static/img/layer2.png"
-               class="icon"
-               v-else></image>
-        <view class="amount">{{worksDetail.action.collectNum}}</view>
+      <view class="like star" @click="clickStar">
+        <image
+          src="@/static/img/layer2-s.png"
+          class="icon"
+          v-if="isStar"
+        ></image>
+        <image src="@/static/img/layer2.png" class="icon" v-else></image>
+        <view class="amount">{{ worksDetail.action.collectNum }}</view>
       </view>
-      <view class="like down"
-            @click="down()">
-        <image src="@/static/img/down.png"
-               class="icon"></image>
+      <view class="like down" @click="down()">
+        <image src="@/static/img/down.png" class="icon"></image>
         <view class="amount">下载</view>
       </view>
     </view>
   </view>
 </template>
- <script lang="ts">
-import { UserWallpaper } from "@/bean/Wallpaper";
-import { WorksDetail } from "@/bean/WorksDetail";
-import { Api } from "@/Const/ConstValue";
-import FetchManager from "@/NetWork/FetchManage";
-import store from "@/store";
-import Utils from "@/utils/utils";
-import { computed, defineComponent, reactive, ref } from "vue";
+<script lang="ts">
+import { UserWallpaper } from '@/bean/Wallpaper'
+import { WorksDetail } from '@/bean/WorksDetail'
+import { Api } from '@/Const/ConstValue'
+import FetchManager from '@/NetWork/FetchManage'
+import store from '@/store'
+import Utils from '@/utils/utils'
+import { computed, defineComponent, reactive, ref } from 'vue'
 
 export default defineComponent({
-  name: "wallpaper-detail",
+  name: 'wallpaper-detail',
   setup() {
     let ifLike = ref(false),
-      isStar = ref(false);
-    let _isLoaded = false;
+      isStar = ref(false)
+    let _isLoaded = false
 
-    let worksDetail = reactive({}) as WorksDetail;
+    let worksDetail = reactive({}) as WorksDetail
 
     async function initHandle(uuid: string, worksType: string) {
-      if (!uuid || !worksType) return;
+      if (!uuid || !worksType) return
       let { data } = await FetchManager.postCommon<WorksDetail>(
         Api.worksDetail,
         {
           uuid: uuid,
           worksType: worksType,
         }
-      );
-      if (!data || !data[0]) return;
-      Object.assign(worksDetail, data[0]);
-      ifLike.value = worksDetail.action.isLike == 1;
-      isStar.value = worksDetail.action.isCollect == 1;
+      )
+      if (!data || !data[0]) return
+      Object.assign(worksDetail, data[0])
+      ifLike.value = worksDetail.action.isLike == 1
+      isStar.value = worksDetail.action.isCollect == 1
     }
     function clickLike() {
-      if (!worksDetail.works) return;
+      if (!worksDetail.works) return
       FetchManager.postCommon(Api.actionLike, {
         uuid: worksDetail.works.uuid,
         worksType: worksDetail.works.worksType,
-      });
-      ifLike.value = !ifLike.value;
+      })
+      ifLike.value = !ifLike.value
       worksDetail.action.likeNum =
-        worksDetail.action.likeNum + (ifLike.value ? 1 : -1);
+        worksDetail.action.likeNum + (ifLike.value ? 1 : -1)
     }
     function clickStar() {
-      if (!worksDetail.works) return;
+      if (!worksDetail.works) return
       FetchManager.postCommon(Api.actionCollect, {
         uuid: worksDetail.works.uuid,
         worksType: worksDetail.works.worksType,
-      });
-      isStar.value = !isStar.value;
+      })
+      isStar.value = !isStar.value
       worksDetail.action.collectNum =
-        worksDetail.action.collectNum + (isStar.value ? 1 : -1);
-      Utils.showToast(isStar.value ? "已收藏" : "已取消收藏");
+        worksDetail.action.collectNum + (isStar.value ? 1 : -1)
+      Utils.showToast(isStar.value ? '已收藏' : '已取消收藏')
     }
     function back() {
       uni.navigateBack({
         delta: 1,
-      });
+      })
     }
 
     function saveImg(path: string) {
@@ -107,95 +101,101 @@ export default defineComponent({
         filePath: path,
         success() {
           uni.showToast({
-            title: "已保存",
-          });
+            title: '已保存',
+          })
           FetchManager.postCommon(Api.actionDown, {
             uuid: worksDetail.works.uuid,
             worksType: worksDetail.works.worksType,
-          });
+          })
         },
         fail() {
           uni.showToast({
-            title: "保存失败~,请检查是否打开相册保存权限",
-          });
+            title: '保存失败~,请检查是否打开相册保存权限',
+          })
         },
-      });
+      })
     }
     function navUserDetail() {
       uni.navigateTo({
-        url: "../creator/creator?userId=" + worksDetail?.userInfo.userId,
-      });
+        url: '../creator/creator?userId=' + worksDetail?.userInfo.userId,
+      })
     }
     let rewardedVideoAd: UniApp.RewardedVideoAdContext,
-      endedCallback: () => void;
+      endedCallback: () => void
     function _onReady() {
-      _isLoaded = false;
-      let adUnitId = "";
+      _isLoaded = false
+      let adUnitId = ''
       // #ifdef MP-TOUTIAO
-      adUnitId = "9nmvllaitrivx1mvn8";
+      adUnitId = '9nmvllaitrivx1mvn8'
       // #endif
       // #ifdef MP-WEIXIN
-      adUnitId = "";
-      Utils.showToast("未配置广告");
+      adUnitId = ''
+      // Utils.showToast('未配置广告')
       // #endif
-	  // #ifdef MP-KUAISHOU
-	  adUnitId = "";
-	  Utils.showToast("未配置广告");
-	  // #endif
+      // #ifdef MP-KUAISHOU
+      adUnitId = ''
+      // Utils.showToast('未配置广告')
+      // #endif
       rewardedVideoAd = uni.createRewardedVideoAd({
         adUnitId: adUnitId,
-      });
+      })
       rewardedVideoAd.onLoad(() => {
-        _isLoaded = true;
-        console.log("onLoad event");
+        _isLoaded = true
+        console.log('onLoad event')
         // 当激励视频被关闭时，默认预载下一条数据，加载完成时仍然触发 `onLoad` 事件
-      });
+      })
       rewardedVideoAd.onError((err) => {
-        console.log("onError event", err);
-        endedCallback();
-      });
+        console.log('onError event', err)
+        endedCallback()
+      })
       rewardedVideoAd.onClose((res: { count: number; isEnded: boolean }) => {
-        console.log("onClose event", res);
+        console.log('onClose event', res)
         if (res.isEnded) {
-          endedCallback();
+          endedCallback()
         } else {
-          Utils.showToast("观看完整视频才能获得下载机会");
+          Utils.showToast('观看完整视频才能获得下载机会')
         }
-      });
+      })
     }
     function showRewardedVideo() {
       if (_isLoaded) {
-        rewardedVideoAd.show();
-        Utils.showToast("观看完整视频才能获得下载机会");
+        rewardedVideoAd.show()
+        Utils.showToast('观看完整视频才能获得下载机会')
       } else {
-        console.log("暂无视频...");
+        console.log('暂无视频...')
         // Utils.showToast("暂无视频");
-        endedCallback();
+        endedCallback()
       }
     }
     function down() {
       endedCallback = () => {
-        if (!worksDetail.works) return;
+        if (!worksDetail.works) return
         uni.showLoading({
-          title: "下载中...",
-        });
+          title: '下载中...',
+        })
         uni.getImageInfo({
           src: worksDetail.works.content,
           success(res) {
-            if (res.path) saveImg(res.path);
+            if (res.path) saveImg(res.path)
           },
-        });
-      };
+        })
+      }
 
+      // #ifdef MP-TOUTIAO
       uni.showModal({
-        title: "提示",
-        content: "需要观看广告才能解锁哦",
+        title: '提示',
+        content: '需要观看广告才能解锁哦',
         success: function (res) {
           if (res.confirm) {
-            showRewardedVideo();
+            showRewardedVideo()
           }
         },
-      });
+      })
+      // #endif
+      // #ifndef MP-TOUTIAO
+      //暂时没广告 除了头条都直接下载
+      endedCallback()
+      // #endif
       // showRewardedVideo();
     }
     return {
@@ -210,20 +210,20 @@ export default defineComponent({
       _onReady,
       worksDetail,
       initHandle,
-    };
+    }
   },
   onLoad(query) {
     if (query && query.uuid && query.worksType) {
-      this.initHandle(query.uuid, query.worksType);
+      this.initHandle(query.uuid, query.worksType)
     }
   },
   onReady() {
     // @ts-ignore
-    this._onReady();
+    this._onReady()
   },
-});
+})
 </script>
- <style lang="scss">
+<style lang="scss">
 .content {
   height: 100vh;
   overflow: hidden;
