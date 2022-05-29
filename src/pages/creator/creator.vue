@@ -1,124 +1,134 @@
 <template>
   <view class="content">
     <view class="info row">
-      <image :src="userWork.userInfo.headImg"
-             class="avatar"></image>
-      <view class="flex-1 name">{{userWork.userInfo.number}}</view>
+      <image :src="userWork.userInfo.headImg" class="avatar"></image>
+      <view class="flex-1 name">{{ userWork.userInfo.number }}</view>
       <view class="i_block">
-        <view class="amount">{{userWork.userInfo.worksNum}}</view>
+        <view class="amount">{{ userWork.userInfo.worksNum }}</view>
         <view class="desc">作品</view>
       </view>
       <view class="line"></view>
       <view class="i_block">
-        <view class="amount">{{userWork.action.likeNum}}</view>
+        <view class="amount">{{ userWork.action.likeNum }}</view>
         <view class="desc">获赞</view>
       </view>
       <view class="line"></view>
       <view class="i_block">
-        <view class="amount">{{userWork.action.collectNum}}</view>
+        <view class="amount">{{ userWork.action.collectNum }}</view>
         <view class="desc">收藏</view>
       </view>
     </view>
     <view class="my_bar_area">
-      <MyTopBar class="my_top_bar"
-                :arr="topBar"
-                :defalut="currentPage"
-                :defalutWidth="32"
-                :defalutLeft="46"
-                @tab-click="tabClick"
-                @change="change"
-                v-if="topBar.length>0" />
-      <view class="declare row"
-            @click="statement">
-        <image src="@/static/img/icon_desc.png"
-               class="icon_desc"></image>
+      <MyTopBar
+        class="my_top_bar"
+        :arr="topBar"
+        :defalut="currentPage"
+        :defalutWidth="32"
+        :defalutLeft="46"
+        @tab-click="tabClick"
+        @change="change"
+        v-if="topBar.length > 0"
+      />
+      <view class="declare row" @click="statement">
+        <image src="@/static/img/icon_desc.png" class="icon_desc"></image>
         声明
       </view>
     </view>
     <view class="gallery">
-      <image :src="works.content"
-             class="item_img"
-             :lazy-load="true"
-             mode="aspectFill"
-             v-for="(works) in imgArr"
-             :key="works.uuid"
-             @click="navDetail(works)"></image>
+      <Poster
+        v-for="works in imgArr"
+        :key="works.uuid"
+        :works="works"
+        @detail="navDetail(works)"
+      />
+      <!-- <image
+        :src="works.content"
+        class="item_img"
+        :lazy-load="true"
+        mode="aspectFill"
+        v-for="works in imgArr"
+        :key="works.uuid"
+        @click="navDetail(works)"
+      ></image> -->
       <LoadPage :pagination="pagination" />
     </view>
   </view>
 </template>
- <script lang="ts">
-import { defineComponent, reactive, ref } from "vue";
-import MyTopBar from "@/components/MyTopBar/MyTopBar.vue";
-import LoadPage from "@/components/LoadPage/LoadPage.vue";
-import FetchManager from "@/NetWork/FetchManage";
-import { Api } from "@/Const/ConstValue";
-import { UserDetail, UserWallpaper } from "@/bean/Wallpaper";
-import { Pagination } from "@/utils/Pages";
-import { navDetail, saveInviteCode } from "@/utils/StaticFunUtils";
+<script lang="ts">
+import { defineComponent, reactive, ref } from 'vue'
+import MyTopBar from '@/components/MyTopBar/MyTopBar.vue'
+import LoadPage from '@/components/LoadPage/LoadPage.vue'
+import Poster from '@/components/Poster/Poster.vue'
+
+import FetchManager from '@/NetWork/FetchManage'
+import { Api } from '@/Const/ConstValue'
+import { UserDetail, UserWallpaper } from '@/bean/Wallpaper'
+import { Pagination } from '@/utils/Pages'
+import { navDetail, saveInviteCode } from '@/utils/StaticFunUtils'
 export default defineComponent({
-  name: "creator",
+  name: 'creator',
   components: {
     MyTopBar,
     LoadPage,
+    Poster,
   },
   onLoad(query) {
     if (query && query.userId) {
-      this.getUserInfo(query.userId);
+      this.getUserInfo(query.userId)
     }
     if (query && query.inviteCode) {
-      this.inviteCode = query.inviteCode;
+      this.inviteCode = query.inviteCode
     }
   },
   setup() {
-    let currentPage = ref(0);
+    let currentPage = ref(0)
     let topBar = reactive<string[]>([]),
-      inviteCode = ref("");
+      inviteCode = ref('')
     function change(i: number) {
-      currentPage.value = i;
+      currentPage.value = i
     }
     function tabClick(i: number) {
-      console.log("我被触发了", i);
+      console.log('我被触发了', i)
     }
-    let userWork = reactive({}) as UserDetail;
+    let userWork = reactive({}) as UserDetail
     function getUserInfo(userId: string) {
       FetchManager.postCommon<UserDetail>(Api.userDetail, {
         userId,
       }).then((res) => {
-        Object.assign(userWork, res.data[0]);
-        let titleArr = userWork.worksTitleList.map((item) => item.name);
-        console.log(titleArr);
-        topBar.length = 0;
-        topBar.push(...titleArr);
-        pagination.reStart();
-        saveInviteCode(inviteCode.value);
-      });
+        Object.assign(userWork, res.data[0])
+        let titleArr = userWork.worksTitleList.map((item) => item.name)
+        console.log(titleArr)
+        topBar.length = 0
+        topBar.push(...titleArr)
+        pagination.reStart()
+        saveInviteCode(inviteCode.value)
+      })
     }
-    let imgArr = reactive<UserWallpaper[]>([]);
+    let imgArr = reactive<UserWallpaper[]>([])
     let pagination = reactive(
       new Pagination<UserWallpaper>({
         postCommon(o) {
           if (o) {
-            o["worksType"] =
-              userWork.worksTitleList[currentPage.value].worksType;
-            o["userId"] = userWork.userInfo.userId;
+            o['worksType'] =
+              userWork.worksTitleList[currentPage.value].worksType
+            o['userId'] = userWork.userInfo.userId
           }
-          return FetchManager.postCommon(Api.userWorkList, o);
+          return FetchManager.postCommon(Api.userWorkList, o)
         },
         callback(res, type) {
-          if (type == "reStart") imgArr.length = 0;
-          imgArr.push(...res.data);
+          if (type == 'reStart') imgArr.length = 0
+          imgArr.push(...res.data)
         },
       })
-    );
+    )
     function statement() {
       uni.showModal({
-        title: "声明",
+        title: '声明',
         content:
-          "创作者上传至唯美取图小程序的作品均已申明为作者本人原创或已获得版权方授权，如您发现任何侵权行为，请及时发送邮件到：xyj_173@163.com,我们将及时核实并处理侵权作品。",
+          '创作者上传至唯美取图小程序的作品均已申明为作者本人原创或已获得版权方授权，如您发现任何侵权行为，请及时发送邮件到：xyj_173@163.com,我们将及时核实并处理侵权作品。',
         showCancel: false,
-        confirmColor: "#135df2",
-      });
+        confirmColor: '#135df2',
+      })
     }
     return {
       currentPage,
@@ -132,14 +142,14 @@ export default defineComponent({
       statement,
       navDetail,
       inviteCode,
-    };
+    }
   },
   onReachBottom() {
-    this.pagination.nextPage();
+    this.pagination.nextPage()
   },
-});
+})
 </script>
- <style lang="scss">
+<style lang="scss">
 .info {
   width: 730upx;
   height: 230upx;
@@ -208,7 +218,7 @@ export default defineComponent({
     position: relative;
   }
   .top_tag::before {
-    content: "置顶";
+    content: '置顶';
     position: absolute;
     width: 70upx;
     height: 32upx;

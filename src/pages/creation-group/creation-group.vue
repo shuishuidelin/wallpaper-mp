@@ -98,6 +98,7 @@ import { Pagination } from '@/utils/Pages'
 import { navDetail } from '@/utils/StaticFunUtils'
 import { defineComponent, reactive, ref } from 'vue'
 import LoadPage from '@/components/LoadPage/LoadPage.vue'
+import User from '@/utils/User'
 
 export default defineComponent({
   name: '',

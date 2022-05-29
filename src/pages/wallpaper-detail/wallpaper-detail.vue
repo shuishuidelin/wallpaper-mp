@@ -5,12 +5,26 @@
       <image src="@/static/img/icon_return.png" class="icon_return"></image>
     </view>
     <!--  #endif -->
-    <image
-      mode="aspectFill"
-      :src="worksDetail.works.content"
-      class="wallpaper"
-      v-if="worksDetail.works.content"
-    ></image>
+    <swiper class="wallpaper">
+      <swiper-item>
+        <image
+          mode="aspectFill"
+          :src="worksDetail.works.content"
+          class="wallpaper"
+          v-if="worksDetail.works.content"
+        ></image
+      ></swiper-item>
+    </swiper>
+    <view class="indicator row">
+      <view class="indicator-item indicator-item-current">1</view>
+      <view class="indicator-item">2</view>
+      <view class="indicator-item">3</view>
+    </view>
+    <!-- <view class="guide row">
+      <image src="@/static/img/paixu.png" class="left"></image>
+      <view class="text">滑动查看其他效果图</view>
+      <image src="@/static/img/paixu.png" class="right"></image>
+    </view> -->
     <view class="plane">
       <view class="avatar_area row" @click="navUserDetail">
         <image :src="worksDetail.userInfo.headImg" class="avatar"></image>
@@ -35,6 +49,7 @@
         <view class="amount">下载</view>
       </view>
     </view>
+    <DownPop />
   </view>
 </template>
 <script lang="ts">
@@ -44,10 +59,14 @@ import { Api } from '@/Const/ConstValue'
 import FetchManager from '@/NetWork/FetchManage'
 import store from '@/store'
 import Utils from '@/utils/utils'
-import { computed, defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
+import DownPop from '@/components/DownPop/DownPop.vue'
 
 export default defineComponent({
   name: 'wallpaper-detail',
+  components: {
+    DownPop,
+  },
   setup() {
     let ifLike = ref(false),
       isStar = ref(false)
@@ -302,5 +321,72 @@ export default defineComponent({
   height: 56upx;
   text-align: center;
   padding-top: 23.5upx;
+}
+.indicator {
+  position: fixed;
+  bottom: 14%;
+  left: 0%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .indicator-item {
+    width: 30upx;
+    height: 30upx;
+    background: rgba(255, 255, 255, 0.7);
+    font-size: 20upx;
+    font-weight: bold;
+    color: #9f9f9f;
+    line-height: 30upx;
+    text-align: center;
+    border-radius: 50%;
+    margin: 0 24upx 0 0;
+  }
+  .indicator-item-current {
+    width: 60upx;
+    height: 60upx;
+    background: rgba(19, 93, 242, 0.7);
+    border: 4upx solid #fff;
+    font-size: 40upx;
+    color: #fff;
+    line-height: 52upx;
+    box-sizing: border-box;
+  }
+}
+.guide {
+  justify-content: center;
+  width: 750upx;
+  height: 100vh;
+  background: #0d0d0dc2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  .text {
+    font-size: 48upx;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0 9upx;
+  }
+  .left {
+    width: 130upx;
+    height: 90upx;
+    transform: rotate(180deg);
+    opacity: 0.3;
+  }
+  .right {
+    width: 130upx;
+    height: 90upx;
+  }
+}
+.my_top_bar .custom-content .topbar {
+  justify-content: space-between;
+}
+.my_top_bar .custom-content .select-line {
+  margin-top: 12upx;
+}
+.my_top_bar .custom-content {
+  margin-left: 189upx;
+  margin-right: 189upx;
 }
 </style>
