@@ -1,17 +1,23 @@
-
 <template>
   <view class="custom-content">
     <view class="topbar row">
-      <view :class="[selectID == i ? 'select-item item' : 'item']" v-for="(item, i) in arr" :key="item" @click="clickTab(i)" :id="'item' + i">{{ item }}</view>
+      <view
+        :class="[selectID == i ? 'select-item item' : 'item']"
+        v-for="(item, i) in arr"
+        :key="item"
+        @click="clickTab(i)"
+        :id="'item' + i"
+        >{{ item }}</view
+      >
     </view>
     <view class="select-line" :style="slidingDistance"></view>
   </view>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from "vue";
+import { defineComponent, nextTick, ref, watch } from 'vue'
 export default defineComponent({
-  name: "Topbar",
+  name: 'Topbar',
   props: {
     arr: Array,
     defalut: Number,
@@ -19,62 +25,64 @@ export default defineComponent({
     defalutLeft: Number,
   },
   setup(prop, context) {
-    let that: any;
-    let selectID = ref(prop.defalut);
+    let that: any
+    let selectID = ref(prop.defalut)
     let slidingDistance = ref(
       `margin-left: ${prop.defalutLeft || 16}rpx;width:${
         prop.defalutWidth ? prop.defalutWidth / 2 : 32
       }rpx;`
-    );
+    )
 
     watch(
       () => prop.defalut,
       (n) => {
         if (n != undefined) {
-          switchItem(n);
+          switchItem(n)
         }
       }
-    );
+    )
     function clickTab(i: number) {
-      context.emit("change", i);
+      context.emit('change', i)
     }
     function switchItem(i: number, ifEmit: boolean = true) {
-      selectID.value = i;
-      switchBar(i, ifEmit);
+      selectID.value = i
+      switchBar(i, ifEmit)
     }
-    let barLeftDistance = 0;
+    let barLeftDistance = 0
     function getTopBarLeftDistance() {
-      const query: WechatMiniprogram.SelectorQuery = that.createSelectorQuery();
+      const query: WechatMiniprogram.SelectorQuery = that.createSelectorQuery()
       if (query) {
         query
-          .select(".custom-content")
+          .select('.custom-content')
           .boundingClientRect((rect) => {
-            barLeftDistance = rect.left;
+            barLeftDistance = rect.left
           })
-          .exec();
+          .exec()
       }
     }
     function switchBar(i: number, ifEmit: boolean = true) {
-      if (!that) return;
-      if (ifEmit) context.emit("tab-click", i);
-      const query: WechatMiniprogram.SelectorQuery = that.createSelectorQuery();
+      if (!that) return
+      if (ifEmit) context.emit('tab-click', i)
+      const query: WechatMiniprogram.SelectorQuery = that.createSelectorQuery()
       if (query)
         query
-          .select("#item" + i)
+          .select('#item' + i)
           .boundingClientRect((rect) => {
-            const left = rect.left - barLeftDistance;
+            const left = rect.left - barLeftDistance
             slidingDistance.value = `margin-left: ${
               left + rect.width / 4
-            }px;width:${rect.width / 2}px;transition: all 0.5s ease;`;
+            }px;width:${rect.width / 2}px;transition: all 0.5s ease;`
           })
-          .exec();
+          .exec()
     }
     function onMounted(target: any) {
-      that = target;
-      getTopBarLeftDistance();
-      if (selectID.value != undefined) {
-        switchBar(selectID.value);
-      }
+      that = target
+      nextTick(() => {
+        getTopBarLeftDistance()
+        if (selectID.value != undefined) {
+          switchBar(selectID.value)
+        }
+      })
     }
     return {
       switchItem,
@@ -83,12 +91,12 @@ export default defineComponent({
       switchBar,
       onMounted,
       clickTab,
-    };
+    }
   },
   mounted() {
-    this.onMounted(this);
+    this.onMounted(this)
   },
-});
+})
 </script>
 
 <style lang="scss">

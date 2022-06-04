@@ -49,7 +49,8 @@
         <view class="amount">下载</view>
       </view>
     </view>
-    <DownPop />
+    <DownPop v-if="showDownPop" />
+    <SaveSuccess v-if="showSaveSuccess" @closePop="showSaveSuccess = false" />
   </view>
 </template>
 <script lang="ts">
@@ -61,15 +62,19 @@ import store from '@/store'
 import Utils from '@/utils/utils'
 import { defineComponent, reactive, ref } from 'vue'
 import DownPop from '@/components/DownPop/DownPop.vue'
+import SaveSuccess from '@/components/SaveSuccess/SaveSuccess.vue'
 
 export default defineComponent({
   name: 'wallpaper-detail',
   components: {
     DownPop,
+    SaveSuccess,
   },
   setup() {
     let ifLike = ref(false),
-      isStar = ref(false)
+      isStar = ref(false),
+      showDownPop = ref(false),
+      showSaveSuccess = ref(true)
     let _isLoaded = false
 
     let worksDetail = reactive({}) as WorksDetail
@@ -229,6 +234,8 @@ export default defineComponent({
       _onReady,
       worksDetail,
       initHandle,
+      showDownPop,
+      showSaveSuccess,
     }
   },
   onLoad(query) {

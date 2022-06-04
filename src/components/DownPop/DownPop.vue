@@ -4,7 +4,7 @@
  * @Autor: mingshuai.yuan
  * @Date: 2022-05-29 20:54:44
  * @LastEditors: mingshuai.yuan
- * @LastEditTime: 2022-05-30 00:31:21
+ * @LastEditTime: 2022-06-04 22:53:15
 -->
 <template>
   <view class="bg">
@@ -18,28 +18,43 @@
         @change="change"
       />
       <image src="@/static/img/close.png" class="icon-close"></image>
-      <view class="page1">
-        <view class="page1-item">
-          <image
-            src="@/static/img/top_img.png"
-            class="page1-image"
-            mode="aspectFit"
-          ></image>
+      <scroll-view :scroll-y="true" class="scrollY">
+        <view class="page1">
+          <view class="page1-item">
+            <image src="@/static/img/right.png" class="icon_right"></image>
+            <image
+              src="@/static/img/top_img.png"
+              class="page1-image"
+              mode="heightFix"
+            ></image>
+          </view>
+          <view class="page1-item">
+            <image src="@/static/img/right.png" class="icon_right"></image>
+            <image
+              src="@/static/img/g10-s.png"
+              class="page1-image"
+              mode="heightFix"
+            ></image>
+          </view>
+          <view class="page1-item">
+            <image
+              src="@/static/img/g10-s.png"
+              class="page1-image"
+              mode="heightFix"
+            ></image>
+          </view>
+          <view class="page1-item">
+            <image
+              src="@/static/img/top_img.png"
+              class="page1-image"
+              mode="heightFix"
+            ></image>
+          </view>
         </view>
-        <view class="page1-item">
-          <image
-            src="@/static/img/g10-s.png"
-            class="page1-image"
-            mode="aspectFit"
-          ></image>
-        </view>
-        <view class="page1-item">
-          <image
-            src="@/static/img/g10-s.png"
-            class="page1-image"
-            mode="aspectFit"
-          ></image>
-        </view>
+      </scroll-view>
+      <view class="pop_bottom row-around">
+        <view class="btn_wispy">取消全选</view>
+        <view class="btn_fill">保存到相册</view>
       </view>
     </view>
   </view>
@@ -92,12 +107,59 @@ export default defineComponent({
     width: 36upx;
     height: 36upx;
   }
+  .scrollY {
+    height: 814upx;
+  }
   .page1 {
-    padding: 40upx;
+    padding: 0 40upx 40upx 40upx;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -10px;
+    .page1-item {
+      overflow: hidden;
+      border-radius: 20upx;
+      margin-left: 10px;
+      position: relative;
+    }
     .page1-image {
       height: 300upx;
+      width: 300upx;
       // background: #eeeeee;
       border-radius: 20upx;
+    }
+    .icon_right {
+      width: 60upx;
+      height: 36upx;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  .pop_bottom {
+    padding-top: 33upx;
+    .btn_wispy {
+      width: 335upx;
+      height: 80upx;
+      border-radius: 40upx 40upx 40upx 40upx;
+      border: 2upx solid #135df2;
+      box-sizing: border-box;
+      font-size: 32upx;
+      font-weight: 400;
+      color: #135df2;
+      line-height: 76upx;
+      text-align: center;
+    }
+    .btn_fill {
+      width: 335upx;
+      height: 80upx;
+      border-radius: 40upx 40upx 40upx 40upx;
+      background: #135df2;
+      font-size: 32upx;
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 80upx;
+      text-align: center;
     }
   }
 }
