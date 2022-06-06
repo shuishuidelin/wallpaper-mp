@@ -30,7 +30,7 @@ export default class User {
     //#ifdef MP-TOUTIAO
     public userReg() {
         const that = this;
-        console.log("调用wxlogin");
+        console.log("调toutiaologin");
         uni.login({
             success(res) {
                 const code = res.code;
@@ -140,10 +140,13 @@ export default class User {
     }
     public setUserInfo(userInfo: UserReg): void {
         console.log(userInfo);
-        store.commit("editUsername", userInfo.number || "未知");
+        store.commit("editUsername", userInfo.userName || "去登录");
         store.commit("editHeadImg", userInfo.headImg || "");
         uni.setStorageSync(ConstValue.userInfo, userInfo)
     }
+	
+	
+	
     public getUserInfo(): UserReg { return uni.getStorageSync(ConstValue.userInfo) || {} }
     /**
      * ifAuth
