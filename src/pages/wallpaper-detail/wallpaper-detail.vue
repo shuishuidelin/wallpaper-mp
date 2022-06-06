@@ -54,7 +54,6 @@
   </view>
 </template>
 <script lang="ts">
-import { UserWallpaper } from '@/bean/Wallpaper'
 import { WorksDetail } from '@/bean/WorksDetail'
 import { Api } from '@/Const/ConstValue'
 import FetchManager from '@/NetWork/FetchManage'
@@ -73,8 +72,8 @@ export default defineComponent({
   setup() {
     let ifLike = ref(false),
       isStar = ref(false),
-      showDownPop = ref(false),
-      showSaveSuccess = ref(true)
+      showDownPop = ref(true),
+      showSaveSuccess = ref(false)
     let _isLoaded = false
 
     let worksDetail = reactive({}) as WorksDetail

@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import Utils from '@/utils/utils'
 import { defineComponent, nextTick, ref, watch } from 'vue'
 export default defineComponent({
   name: 'Topbar',
@@ -23,13 +24,18 @@ export default defineComponent({
     defalut: Number,
     defalutWidth: Number,
     defalutLeft: Number,
+    fixWidth: Number,
   },
   setup(prop, context) {
     let that: any
     let selectID = ref(prop.defalut)
     let slidingDistance = ref(
       `margin-left: ${prop.defalutLeft || 16}rpx;width:${
-        prop.defalutWidth ? prop.defalutWidth / 2 : 32
+        prop.fixWidth
+          ? prop.fixWidth
+          : prop.defalutWidth
+          ? prop.defalutWidth / 2
+          : 32
       }rpx;`
     )
 
@@ -68,10 +74,14 @@ export default defineComponent({
         query
           .select('#item' + i)
           .boundingClientRect((rect) => {
-            const left = rect.left - barLeftDistance
+            const left = rect.left - barLeftDistance,
+              barWidth = prop.fixWidth
+                ? Utils.UpxToPx(prop.fixWidth)
+                : rect.width / 2,
+              itemWidth = rect.width
             slidingDistance.value = `margin-left: ${
-              left + rect.width / 4
-            }px;width:${rect.width / 2}px;transition: all 0.5s ease;`
+              (itemWidth - barWidth) / 2 + left
+            }px;width:${barWidth}px;transition: all 0.5s ease;`
           })
           .exec()
     }

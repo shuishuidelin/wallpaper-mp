@@ -4,7 +4,7 @@
  * @Autor: mingshuai.yuan
  * @Date: 2022-05-29 20:54:44
  * @LastEditors: mingshuai.yuan
- * @LastEditTime: 2022-06-04 22:53:15
+ * @LastEditTime: 2022-06-06 23:53:35
 -->
 <template>
   <view class="bg">
@@ -14,6 +14,8 @@
         v-if="topBar.length > 0"
         :arr="topBar"
         :defalut="currentPage"
+        :defalutLeft="32"
+        :fixWidth="60"
         @tab-click="tabClick"
         @change="change"
       />
